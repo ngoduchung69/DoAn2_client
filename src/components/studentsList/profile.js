@@ -48,21 +48,21 @@ const Profile = ({ visible, mssv, setVisible }) => {
       onClose={() => setVisible(false)}
       visible={visible}
     >
-        <p style={{ ...pStyle, marginBottom: 24 }}>User Profile</p>
+        <p style={{ ...pStyle, marginBottom: 24 }}>Thông tin cá nhân</p>
         <Row>
             <Col span={12}>
-              <DescriptionItem title="Full Name" content={data.user.name} />
+              <DescriptionItem title="Họ và Tên" content={data.user.name} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="Age" content={data.user.age} />
+              <DescriptionItem title="Tuổi" content={data.user.age} />
             </Col>
           </Row>
           <Row>
             <Col span={12}>
-              <DescriptionItem title="MSSV" content={data.user.mssv} />
+              <DescriptionItem title="Mã số sinh viên" content={data.user.mssv} />
             </Col>
             <Col span={12}>
-              <DescriptionItem title="tel" content={data.user.tel} />
+              <DescriptionItem title="Số điện thoại" content={data.user.tel} />
             </Col>
           </Row>
           <Divider />

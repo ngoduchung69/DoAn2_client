@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import { Modal, Button, Input, Form } from "antd";
 import { useMutation } from "@apollo/react-hooks";
+import { UsersQuery, StudentsQuery } from "./../../schema/query";
 import { UpdateUserMutation } from "../../schema/mutation";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -35,9 +36,11 @@ const Edit = ({ setVisible, visible, edit_id }) => {
             _id: edit_id,
             age: data.age,
             tel: data.tel
-          }
+          },
+          refetchQueries:[{query: StudentsQuery}]
         });
         setVisible(false);
+        // window.location.reload();
       }}
       render={({
         values,
@@ -56,7 +59,7 @@ const Edit = ({ setVisible, visible, edit_id }) => {
             onOk={() => handleSubmit()}
           >
             <Form layout="vertical" hideRequiredMark>
-              <Form.Item label="Name" required={true}>
+              <Form.Item label="Họ và Tên" required={true}>
                 <Input
                   value={values.name}
                   onChange={handleChange}
@@ -65,7 +68,7 @@ const Edit = ({ setVisible, visible, edit_id }) => {
                 />
                 {errors.name && <div>{errors.name}</div>}
               </Form.Item>
-              <Form.Item label="MSSV" required={true}>
+              <Form.Item label="Mã số sinh viên" required={true}>
                 <Input
                   type="number"
                   value={values.mssv}
@@ -75,7 +78,7 @@ const Edit = ({ setVisible, visible, edit_id }) => {
                 />
                 {errors.mssv && <div>{errors.mssv}</div>}
               </Form.Item>
-              <Form.Item label="age" required={true}>
+              <Form.Item label="Tuổi" required={true}>
                 <Input
                   type="number"
                   value={values.age}
@@ -85,7 +88,7 @@ const Edit = ({ setVisible, visible, edit_id }) => {
                 />
                 {errors.age && <div>{errors.age}</div>}
               </Form.Item>
-              <Form.Item label="tel" required={true}>
+              <Form.Item label="Số điện thoại" required={true}>
                 <Input
                   type="number"
                   value={values.tel}

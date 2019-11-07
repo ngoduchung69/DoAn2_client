@@ -51,10 +51,10 @@ const CreateNewAcount = () => {
   return (
     <div>
       <Button type="primary" onClick={showDrawer}>
-        <Icon type="plus" /> New account
+        <Icon type="plus" /> Thêm Thành Viên
       </Button>
       <Drawer
-        title="Create a new account"
+        title="Tạo Mới"
         width={720}
         onClose={onClose}
         visible={visible}
@@ -64,7 +64,7 @@ const CreateNewAcount = () => {
             <Col span={12}>
               <Form.Item label="Name">
                 <Input
-                  placeholder="Please enter user name"
+                  placeholder="Họ và Tên"
                   onChange={event => setHandleName(event.target.value)}
                 />
               </Form.Item>
@@ -73,7 +73,7 @@ const CreateNewAcount = () => {
               <Form.Item label="MSSV">
                 <Input
                   type="number"
-                  placeholder="Please enter user MSSV"
+                  placeholder="Mã số sinh viên"
                   onChange={event => {
                     setHandleMSSV(parseInt(event.target.value));
                   }}
@@ -86,7 +86,7 @@ const CreateNewAcount = () => {
               <Form.Item label="age">
                 <Input
                   type="number"
-                  placeholder="Please enter user age"
+                  placeholder="tuổi"
                   onChange={event => {
                     setHandleAge(parseInt(event.target.value));
                   }}
@@ -97,7 +97,7 @@ const CreateNewAcount = () => {
               <Form.Item label="tel">
                 <Input
                   type="number"
-                  placeholder="Please enter user tel"
+                  placeholder="số điện thoại"
                   onChange={event => {
                     setHandleTel(parseInt(event.target.value));
                   }}

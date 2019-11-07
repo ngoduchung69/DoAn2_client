@@ -7,6 +7,21 @@ import { DeleteUserMutation, UpdateUserMutation } from "../../schema/mutation";
 import CreateNewAcount from "./createNewAcount";
 import Edit from "./edit";
 import Profile from "./profile";
+const { confirm } = Modal;
+const showDeleteConfirm = () =>
+  confirm({
+    title: "Are you sure delete this task?",
+    content: "Some descriptions",
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      console.log("OK");
+    },
+    onCancel() {
+      console.log("Cancel");
+    }
+  });
 
 const StudentsList = () => {
   const [handleID, setHandleID] = useState();
@@ -14,6 +29,7 @@ const StudentsList = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [deleteUser] = useMutation(DeleteUserMutation);
+
   const { loading, error, data } = useQuery(StudentsQuery);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -30,7 +46,7 @@ const StudentsList = () => {
       <Table
         columns={[
           {
-            title: "name",
+            title: "Họ và Tên",
             dataIndex: "name",
             key: "name",
             render: (text, record) => (
@@ -45,17 +61,17 @@ const StudentsList = () => {
             )
           },
           {
-            title: "mssv",
+            title: "Mã số sinh viên",
             dataIndex: "mssv",
             key: "mssv"
           },
           {
-            title: "age",
+            title: "Tuổi",
             dataIndex: "age",
             key: "age"
           },
           {
-            title: "tel",
+            title: "Điện thoại",
             dataIndex: "tel",
             key: "tel"
           },
@@ -76,19 +92,31 @@ const StudentsList = () => {
                     console.log(record._id);
                   }}
                 >
-                  Edit
+                  Sửa
                 </a>
                 <Divider type="vertical" />
                 <a
-                  onClick={() => {
-                    deleteUser({
-                      variables: { _id: record._id },
-                      refetchQueries: [{ query: StudentsQuery }]
-                    });
-                    window.location.reload();
-                  }}
+                  onClick={() =>
+                    confirm({
+                      title: "Bạn có chắc là muốn xóa không?",
+                      content: `${record.name}`,
+                      okText: "Yes",
+                      okType: "danger",
+                      cancelText: "No",
+                      onOk() {
+                        deleteUser({
+                          variables: { _id: record._id }
+                          // refetchQueries: [{ query: StudentsQuery }]
+                        });
+                        window.location.reload();
+                      },
+                      onCancel() {
+                        console.log("Cancel");
+                      }
+                    })
+                  }
                 >
-                  Delete
+                  Xóa
                 </a>
               </span>
             )

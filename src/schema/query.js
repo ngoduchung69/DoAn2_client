@@ -41,7 +41,7 @@ export const StudentQuery = gql`
 export const CheckInTimeQuery = gql`
   query findCheckInTimeQuery($id: ID!) {
     checkInTimes(_id: $id) {
-      UserId
+      userId
       checkInTime
     }
   }
