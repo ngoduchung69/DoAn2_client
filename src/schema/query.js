@@ -9,6 +9,8 @@ export const UsersQuery = gql`
       mssv
       tel
       age
+      fingerPrint
+      appearance
     }
   }
 `;
@@ -22,6 +24,8 @@ export const StudentsQuery = gql`
       mssv
       age
       tel
+      fingerPrint
+      appearance
     }
   }
 `;
@@ -34,6 +38,8 @@ export const StudentQuery = gql`
       age
       tel
       mssv
+      fingerPrint
+      appearance
     }
   }
 `;

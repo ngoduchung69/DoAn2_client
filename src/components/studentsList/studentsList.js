@@ -3,10 +3,16 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { UsersQuery, StudentsQuery } from "./../../schema/query";
 import { Table, Divider, Tag, Input, notification, Form, Modal } from "antd";
 import "antd/dist/antd.css";
+import UploadFile from '../studentsList/uploadFile';
 import { DeleteUserMutation, UpdateUserMutation } from "../../schema/mutation";
 import CreateNewAcount from "./createNewAcount";
 import Edit from "./edit";
 import Profile from "./profile";
+import ConvertToExel from "./convertToExel";
+import EditFingerPrint from "./EditFingerPrint";
+var json2xls = require('json2xls');
+const fs = require('fs');
+
 const { confirm } = Modal;
 const showDeleteConfirm = () =>
   confirm({
@@ -35,7 +41,7 @@ const StudentsList = () => {
   if (error) return <p>Error :(</p>;
 
   return (
-    <div>
+    <div style={{position:"relative"}}>
       <CreateNewAcount />
       <Profile
         visible={openProfile}
@@ -81,6 +87,11 @@ const StudentsList = () => {
             key: "_id"
           },
           {
+            title: "số buổi đến lớp",
+            dataIndex: "appearance",
+            key: "appearance"
+          },
+          {
             title: "action",
             key: "action",
             render: (text, record) => (
@@ -118,12 +129,16 @@ const StudentsList = () => {
                 >
                   Xóa
                 </a>
+                {/* <Divider type="vertical" /> */}
+                <EditFingerPrint />
               </span>
             )
           }
         ]}
         dataSource={data.students}
       />
+      <UploadFile />
+      <div style={{position:"absolute", right:"50px", top:"0px"}}><ConvertToExel /></div>
     </div>
   );
 };

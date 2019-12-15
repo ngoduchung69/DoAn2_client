@@ -13,33 +13,33 @@ import {
   Icon,
   notification
 } from "antd";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useSubscription } from "@apollo/react-hooks";
 import { AddUserMutation } from "../../schema/mutation";
 import { StudentsQuery } from "../../schema/query";
+import { SUBSCRIPTION } from "./../../schema/subscription";
 
 const CreateNewAcount = () => {
+  const [loadingButton, setLoadingButton] = useState(false);
   const [handleName, setHandleName] = useState();
   const [handleMSSV, setHandleMSSV] = useState();
   const [handleAge, setHandleAge] = useState();
   const [handleTel, setHandleTel] = useState();
   const [visible, setVisible] = useState(false);
-  const [addUser] = useMutation(AddUserMutation,
-		{
-			update(cache, { data }) {
-				const { users } = cache.readQuery({ query: StudentsQuery });
-				cache.writeQuery({
-					query: StudentsQuery,
-					data: { users: users.concat([data.addUser]) },
-				});
-			},
-			onCompleted: data => {
-				notification.success({
-					message: 'Thêm Thành Công',
-				})
-			}
-		}
-    );
-
+  const [addUser] = useMutation(AddUserMutation, {
+    update(cache, { data }) {
+      const { users } = cache.readQuery({ query: StudentsQuery });
+      cache.writeQuery({
+        query: StudentsQuery,
+        data: { users: users.concat([data.addUser]) }
+      });
+    },
+    onCompleted: data => {
+      notification.success({
+        message: "Thêm Thành Công"
+      });
+    }
+  });
+  const { data, loading } = useSubscription(SUBSCRIPTION);
   const showDrawer = () => {
     setVisible(true);
   };
@@ -53,12 +53,7 @@ const CreateNewAcount = () => {
       <Button type="primary" onClick={showDrawer}>
         <Icon type="plus" /> Thêm Thành Viên
       </Button>
-      <Drawer
-        title="Tạo Mới"
-        width={720}
-        onClose={onClose}
-        visible={visible}
-      >
+      <Drawer title="Tạo Mới" width={720} onClose={onClose} visible={visible}>
         <Form layout="vertical" hideRequiredMark>
           <Row gutter={16}>
             <Col span={12}>
@@ -82,7 +77,7 @@ const CreateNewAcount = () => {
             </Col>
           </Row>
           <Row gutter={16}>
-          <Col span={12}>
+            <Col span={12}>
               <Form.Item label="age">
                 <Input
                   type="number"
@@ -104,6 +99,21 @@ const CreateNewAcount = () => {
                 />
               </Form.Item>
             </Col>
+            <div style={{ textAlign: "center" }}>
+              <Button
+                type="primary"
+                icon="poweroff"
+                loading={loadingButton}
+                onClick={() => setLoadingButton(true)}
+              >
+                Nhập vân tay
+              </Button>
+              {
+                loadingButton && <div>{!loading && <Icon type="check-circle" />}</div>
+              }
+              {/* <div>{!loading && data.postAdded}</div> */}
+              
+            </div>
           </Row>
           <div
             style={{
@@ -127,12 +137,12 @@ const CreateNewAcount = () => {
                     name: handleName,
                     mssv: handleMSSV,
                     role: false,
-                    age:handleAge,
-                    tel:handleTel
+                    age: handleAge,
+                    tel: handleTel
                   },
-                  refetchQueries:[{query:StudentsQuery}]
+                  refetchQueries: [{ query: StudentsQuery }]
                 });
-                onClose()
+                onClose();
               }}
               type="primary"
             >
