@@ -1,54 +1,22 @@
 import { gql } from "apollo-boost";
 
-export const UsersQuery = gql`
+export const LightOnQuery = gql`
   {
-    users {
-      name
+    lightOnQuery {
       _id
-      role
-      mssv
-      tel
-      age
-      fingerPrint
-      appearance
-    }
-  }
-`;
-
-export const StudentsQuery = gql`
-  {
-    students {
-      name
-      _id
-      role
-      mssv
-      age
-      tel
-      fingerPrint
-      appearance
-    }
-  }
-`;
-
-export const StudentQuery = gql`
-  query findUser($mssv:Int!) {
-    user(mssv:$mssv ) {
-      name
-      _id
-      age
-      tel
-      mssv
-      fingerPrint
-      appearance
-    }
-  }
-`;
-
-export const CheckInTimeQuery = gql`
-  query findCheckInTimeQuery($id: ID!) {
-    checkInTimes(_id: $id) {
-      userId
-      checkInTime
+      micro
+      accel {
+        x
+        y
+        z
+      }
+      type
+      color {
+        red
+        blue
+        green
+      }
+      time
     }
   }
 `;
