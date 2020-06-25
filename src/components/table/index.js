@@ -1,21 +1,11 @@
 import React from "react";
-import { SUBSCRIPTION } from "../../schema/subscription";
-import { useMutation, useSubscription, useQuery } from "@apollo/react-hooks";
-import { LightOnQuery } from "../../schema/query";
+
 import { Table, Tag, Space } from "antd";
 import "antd/dist/antd.css";
 
 const { Column, ColumnGroup } = Table;
 
 const DACN = ({data}) => {
-  const { data2, loading2 } = useSubscription(SUBSCRIPTION, {
-    onSubscriptionData: (data1) => {
-      let jsonString = data1.subscriptionData.data.postAdded;
-      let content = jsonString.replace(/'/g, '"');
-      let a = JSON.parse(content);
-      console.log(a);
-    },
-  });
 
   return (
     <div>

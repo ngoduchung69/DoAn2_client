@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import {  useQuery } from "@apollo/react-hooks";
 import { LightOnQuery } from "./schema/query";
 import DACN from "./components/table";
-import Chartsss from "./components/chart";
+import RealTimeChart from "./components/chart/RealTimeChart";
+
 
 const App = () => {
   const { loading, error, data } = useQuery(LightOnQuery, {
@@ -19,7 +20,7 @@ const App = () => {
       <Switch>
         <Route exact path="/">
           <DACN data={data} />
-          <Chartsss data={data} />
+          <RealTimeChart />
         </Route>
       </Switch>
     </Router>
