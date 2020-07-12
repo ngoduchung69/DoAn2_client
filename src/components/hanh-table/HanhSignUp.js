@@ -1,9 +1,36 @@
 import React, { useState } from "react";
 import { Button, Modal, Form, Input, Radio } from "antd";
-import styled from 'styled-components'
+import styled from "styled-components";
+import { ADD_USER, ADD_POST } from "../../schema/mutation";
+import {
+  useMutation,
+  useSubscription,
+  useQuery,
+  useLazyQuery,
+} from "@apollo/react-hooks";
+import { notification } from "antd";
 
-const CollectionCreateForm = ({ visible, onCreate, onCancel,displayContent }) => {
-    const [spinButton,setSpinButton] = useState(false)
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+const CollectionCreateForm = ({
+  visible,
+  onCreate,
+  onCancel,
+  displayContent,
+  setDisplayContent,
+}) => {
+  const [spinButton, setSpinButton] = useState(false);
+  const [ramdomId, setRamdomId] = useState();
+  const [addPost] = useMutation(ADD_POST);
+  const [addUser] = useMutation(ADD_USER, {
+    onCompleted: (data) => {
+      notification.success({
+        message: "Thêm Thành Công",
+      });
+    },
+  });
   const [form] = Form.useForm();
   return (
     <Modal
@@ -11,13 +38,31 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel,displayContent }) =>
       title="Create New User"
       okText="Create"
       cancelText="Cancel"
-      onCancel={onCancel}
+      onCancel={() => {
+        form.validateFields().then((values) => {
+          setSpinButton(false);
+          setDisplayContent("");
+          onCreate(values);
+          form.resetFields();
+          // onCancel();
+        });
+      }}
       onOk={() => {
         form
           .validateFields()
           .then((values) => {
-            form.resetFields();
+            setSpinButton(false);
+            setDisplayContent("");
             onCreate(values);
+            addUser({
+              variables: {
+                name: values.name,
+                phone: values.phone,
+                address: values.address,
+                fingerId: ramdomId.toString(),
+              },
+            });
+            form.resetFields();
           })
           .catch((info) => {
             console.log("Validate Failed:", info);
@@ -33,7 +78,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel,displayContent }) =>
         }}
       >
         <Form.Item
-          name="Name"
+          name="name"
           label="Name"
           rules={[
             {
@@ -44,34 +89,41 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel,displayContent }) =>
         >
           <Input />
         </Form.Item>
-        <Form.Item name="Address" label="Address">
+        <Form.Item name="address" label="Address">
           <Input type="textarea" />
         </Form.Item>
-        <Form.Item name="Phone" label="Phone">
+        <Form.Item name="phone" label="Phone">
           <Input type="number" />
         </Form.Item>
         <Button
           type="primary"
           loading={spinButton}
           onClick={() => {
-            setSpinButton(true)
+            setSpinButton(true);
+            let ramdomId1 = getRandomInt(100);
+            addPost({
+              variables: {
+                message: "{'type':1,'id':" + ramdomId1 + "}",
+              },
+            });
+            setRamdomId(ramdomId1);
           }}
         >
           Add FingerPrint
         </Button>
-<DisplayContent>{displayContent}</DisplayContent>
+        <DisplayContent>{displayContent}</DisplayContent>
       </Form>
     </Modal>
   );
 };
 
 const DisplayContent = styled.div`
-display:inline;
-color:green;
-margin:10px;
-`
+  display: inline;
+  color: green;
+  margin: 10px;
+`;
 
-const HanhSignUp = ({displayContent}) => {
+const HanhSignUp = ({ displayContent, setDisplayContent }) => {
   const [visible, setVisible] = useState(false);
 
   const onCreate = (values) => {
@@ -96,6 +148,7 @@ const HanhSignUp = ({displayContent}) => {
           setVisible(false);
         }}
         displayContent={displayContent}
+        setDisplayContent={setDisplayContent}
       />
     </div>
   );

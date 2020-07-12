@@ -27,9 +27,9 @@ const HanhTable = ({tableData}) => {
           key: 'temp',
         },
         {
-          title: 'ID',
-          dataIndex: '_id',
-          key: '_id',
+          title: 'Time',
+          dataIndex: 'time',
+          key: 'time',
         },
       ];
     return (
