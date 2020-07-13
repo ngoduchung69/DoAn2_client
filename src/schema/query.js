@@ -10,8 +10,20 @@ query findUser($fingerId:String) {
     fingerId
   }
 }
-
 `
+
+export const GET_ALL_USERS = gql`
+  {
+    getAllUsers {
+      _id
+      fingerId
+      name
+      phone
+      address
+    }
+  }
+`;
+
 
 export const LightOnQuery = gql`
   {

@@ -9,6 +9,7 @@ import {
   useLazyQuery,
 } from "@apollo/react-hooks";
 import { notification } from "antd";
+import ModalAllUsers from "./ModalAllUsers";
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -27,7 +28,7 @@ const CollectionCreateForm = ({
   const [addUser] = useMutation(ADD_USER, {
     onCompleted: (data) => {
       notification.success({
-        message: "Thêm Thành Công",
+        message: "Add User Success",
       });
     },
   });
@@ -133,14 +134,18 @@ const HanhSignUp = ({ displayContent, setDisplayContent }) => {
 
   return (
     <div>
-      <Button
-        type="primary"
-        onClick={() => {
-          setVisible(true);
-        }}
-      >
-        Create New User
-      </Button>
+      <ButtonBox>
+        <Button
+          type="primary"
+          onClick={() => {
+            setVisible(true);
+          }}
+        >
+          Create New User
+        </Button>
+        <ModalAllUsers />
+      </ButtonBox>
+
       <CollectionCreateForm
         visible={visible}
         onCreate={onCreate}
@@ -153,5 +158,10 @@ const HanhSignUp = ({ displayContent, setDisplayContent }) => {
     </div>
   );
 };
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 export default HanhSignUp;
