@@ -9,17 +9,17 @@ import RealTimeChart from "./components/chart/RealTimeChart";
 
 
 const App = () => {
-  const { loading, error, data } = useQuery(LightOnQuery, {
-    // pollInterval: 500,
-  });
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  // const { loading, error, data } = useQuery(LightOnQuery, {
+  //   // pollInterval: 500,
+  // });
+  // if (loading) return "Loading...";
+  // if (error) return `Error! ${error.message}`;
 
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <DACN data={data} />
+          {/* <DACN data={data} /> */}
           <RealTimeChart />
         </Route>
       </Switch>
