@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link rel="stylesheet" href="majorProject.css" />
+    <script src="plotly.min.js"></script>
+  </head>
+  <body>
+    <div class="displayRow">
+      <div class="displayArea"><div class="styleChart" id="accel"></div></div>
+      <div class="displayArea"><div class="styleChart" id="color"></div></div>
+    </div>
+    <div id="volume"></div>
+    <div class="displayText" id="p1"></div>
+
+    <script>
+      document.getElementById("p1").innerHTML = "New text!";
+
+      function getData() {
+        return Math.random();
+      }
+
+      Plotly.plot("color", [
+      {
+        y: [1],
+        type: "line",
+        marker: {
+          color: "red",
+        },
+      },
+      {
+        y: [2],
+        type: "line",
+        marker: {
+          color: "blue",
+        },
+      },
+      {
+        y: [3],
+        type: "line",
+        marker: {
+          color: "yellow",
+        },
+      },
+    ]);
+    Plotly.plot("accel", [
+      {
+        y: [1],
+        type: "line",
+        marker: {
+          color: "red",
+        },
+      },
+      {
+        y: [2],
+        type: "line",
+        marker: {
+          color: "blue",
+        },
+      },
+      {
+        y: [3],
+        type: "line",
+        marker: {
+          color: "yellow",
+        },
+      },
+    ]);
+    Plotly.plot("volume", [
+      {
+        y: [1],
+        type: "line",
+        marker: {
+          color: "red",
+        },
+      },
+    ]);
+      setInterval(function () {
+        Plotly.extendTraces(
+          "color",
+          {
+            y: [
+              [1],
+              [2],
+              [3],
+            ],
+          },
+          [0, 1, 2]
+        );
+        Plotly.extendTraces(
+          "accel",
+          {
+            y: [[1], [2], [3]],
+          },
+          [0, 1, 2]
+        );
+        Plotly.extendTraces("volume", { y: [[4]] }, [0]);
+      }, 200);
+    </script>
+  </body>
+</html>
